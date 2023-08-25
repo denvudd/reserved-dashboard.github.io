@@ -15,12 +15,24 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const storeExist = await db.store.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    if (storeExist) {
+      return new NextResponse("Store already exists", { status: 409 });
+    }
+
     const store = await db.store.create({
       data: {
         name,
         userId,
       },
     });
+
+    return NextResponse.json(store);
   } catch (error) {
     // DEV
     console.log("[STORE CREATE]:", error);
