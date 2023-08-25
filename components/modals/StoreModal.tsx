@@ -46,6 +46,8 @@ const StoreModal: React.FC = ({}) => {
 
       const response = await axios.post("/api/store/create", payload);
       toast.success("Store created");
+
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 409) {
