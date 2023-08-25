@@ -25,7 +25,8 @@ import {
 } from "../ui/Form";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
 
 const StoreModal: React.FC = ({}) => {
   const { isOpen, onClose } = useStoreModal();
@@ -44,7 +45,23 @@ const StoreModal: React.FC = ({}) => {
       setIsLoading(true);
 
       const response = await axios.post("/api/store/create", payload);
+      toast.success("Store created");
     } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 409) {
+          return toast.error("Store already exists");
+        }
+
+        if (error.response?.status === 401) {
+          return toast.error("Unauthorized");
+        }
+
+        if (error.response?.status === 422) {
+          return toast.error("Invalid name of store");
+        }
+      }
+
+      toast.error("Something went wrong... Please try again letter");
     } finally {
       setIsLoading(false);
     }
