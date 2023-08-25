@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import React from "react";
 import { redirect } from "next/navigation";
 import db from "@/lib/prisma";
+import Navbar from "@/components/Navbar";
 
 export default async function DashboardLayout({
   children,
@@ -30,7 +31,8 @@ export default async function DashboardLayout({
 
   return (
     <div>
-      <div className="">Navbar</div>
+      {/* @ts-expect-error server component */}
+      <Navbar />
       {children}
     </div>
   );
