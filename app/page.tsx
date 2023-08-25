@@ -1,11 +1,11 @@
 "use client";
 
-import { DialogHeader } from "@/components/ui/Dialog";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
+  DialogHeader
 } from "@/components/ui/Dialog";
 
 export default function Home() {
