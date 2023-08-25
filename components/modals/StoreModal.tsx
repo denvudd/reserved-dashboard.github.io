@@ -25,9 +25,22 @@ import {
 } from "../ui/Form";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const StoreModal: React.FC = ({}) => {
   const { isOpen, onClose } = useStoreModal();
+
+  const { mutate: createStore, isLoading: isStoreLoading } = useMutation({
+    mutationFn: async ({ name }: CreateStorePayload) => {
+      const payload: CreateStorePayload = { name };
+
+      const { data } = await axios.patch(`/api/store/create`, payload);
+      return data;
+    },
+    onError: () => {},
+    onSuccess: () => {},
+  });
 
   const form = useForm<CreateStorePayload>({
     resolver: zodResolver(CreateStoreValidator),
@@ -37,7 +50,8 @@ const StoreModal: React.FC = ({}) => {
   });
 
   const onSubmit = async ({ name }: CreateStorePayload) => {
-    console.log(name);
+    const payload: CreateStorePayload = { name };
+    createStore(payload);
   };
 
   return (
@@ -60,17 +74,31 @@ const StoreModal: React.FC = ({}) => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="E-Commerce" {...field} />
+                        <Input
+                          disabled={isStoreLoading}
+                          placeholder="E-Commerce"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                  <Button variant="outline" onClick={() => onClose()}>
+                  <Button
+                    disabled={isStoreLoading}
+                    variant="outline"
+                    onClick={() => onClose()}
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit">Continue</Button>
+                  <Button
+                    disabled={isStoreLoading}
+                    isLoading={isStoreLoading}
+                    type="submit"
+                  >
+                    Continue
+                  </Button>
                 </div>
               </form>
             </Form>
