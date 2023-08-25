@@ -1,23 +1,18 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader
-} from "@/components/ui/Dialog";
+import { useStoreModal } from "@/hooks/use-store-modal";
+import React from "react";
 
 export default function Home() {
+  const { onOpen, isOpen } = useStoreModal();
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      onOpen();
+    }
+  }, [isOpen, onOpen]);
+
   return (
-    <Dialog open onOpenChange={() => {}}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Test</DialogTitle>
-          <DialogDescription>Descr</DialogDescription>
-        </DialogHeader>
-        Clidren
-      </DialogContent>
-    </Dialog>
+    <div className=""></div>
   );
 }
