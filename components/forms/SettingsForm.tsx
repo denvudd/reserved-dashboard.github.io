@@ -25,6 +25,8 @@ import { toast } from "sonner";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import AlertModal from "../modals/AlertModal";
+import ApiAlert from "../ui/ApiAlert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   store: Store;
@@ -36,6 +38,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
 
   const { storeId } = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const form = useForm<SettingsPayload>({
     resolver: zodResolver(SettingsValidator),
@@ -49,7 +52,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
         name,
       };
 
-      await axios.patch(`/api/store/${storeId}`, payload);
+      await axios.patch(`/api/store/${storeId}/update`, payload);
       router.refresh();
 
       toast.success("Store updated.");
@@ -145,6 +148,12 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
           </Button>
         </form>
       </Form>
+      <Separator />
+      <ApiAlert
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/${storeId}`}
+        variant="public"
+      />
     </>
   );
 };
