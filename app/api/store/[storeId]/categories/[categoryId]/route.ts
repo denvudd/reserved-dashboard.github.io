@@ -5,32 +5,32 @@ import { z } from "zod";
 interface Params {
   params: {
     storeId: string;
-    billboardId: string;
+    categoryId: string;
   };
 }
 
 export async function GET(req: Request, { params }: Params) {
   try {
-    const { billboardId, storeId } = params;
+    const { categoryId, storeId } = params;
 
     if (!storeId) {
       return new NextResponse("Store ID is required", { status: 400 });
     }
 
-    if (!billboardId) {
-      return new NextResponse("Billboard ID is required", { status: 400 });
+    if (!categoryId) {
+      return new NextResponse("Category ID is required", { status: 400 });
     }
 
-    const billboard = await db.billboard.findUnique({
+    const category = await db.category.findUnique({
       where: {
-        id: billboardId,
+        id: categoryId,
       },
     });
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(category);
   } catch (error) {
     // DEV
-    console.log("[BILLBOARD GET]:", error);
+    console.log("[CATEGORY GET]:", error);
 
     if (error instanceof z.ZodError) {
       return new NextResponse("Invalid request data passed", { status: 422 });
