@@ -63,5 +63,7 @@ model Size {
   store     Store    @relation("StoreToSize", fields: [storeId], references: [id])
   name      String
 
+  value String
+
   @@index([storeId])
 }
