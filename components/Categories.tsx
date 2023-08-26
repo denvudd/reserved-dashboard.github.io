@@ -19,7 +19,7 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   const router = useRouter();
   const { storeId } = useParams();
 
-  const formattedBillboards: CategoryColumn[] = categories.map((category) => ({
+  const formattedCategories: CategoryColumn[] = categories.map((category) => ({
     id: category.id,
     name: category.name,
     billboardLabel: category.billboard.label,
@@ -42,7 +42,7 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
       <Separator />
       <DataTable
         columns={columns}
-        data={formattedBillboards}
+        data={formattedCategories}
         searchKey="name"
       />
       <Heading title="API" description="API calls for categories" />
