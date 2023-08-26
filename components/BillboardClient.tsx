@@ -27,7 +27,8 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
     (billboard) => ({
       id: billboard.id,
       label: billboard.label,
-      createdAt: format(billboard.createdAt, "MMMM do, yyyy"),
+      createdAt: format(billboard.createdAt, "Pp"),
+      updatedAt: format(billboard.updatedAt, "Pp"),
     })
   );
 
