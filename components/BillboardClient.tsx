@@ -12,6 +12,7 @@ import {
 } from "@/components/tables/billboards/columns";
 import { format } from "date-fns";
 import { DataTable } from "./ui/DataTable";
+import ApiList from "./ui/ApiList";
 
 interface BillboardClientProps {
   billboards: Billboard[];
@@ -46,6 +47,7 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
       </div>
       <Separator />
       <DataTable columns={columns} data={formattedBillboards} searchKey="label" />
+      <ApiList entityIdName="billboardId" entityName="billboards" />
     </>
   );
 };
