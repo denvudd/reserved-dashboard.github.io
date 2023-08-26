@@ -27,6 +27,7 @@ import {
   type BillboardPayload,
   BillboardValidator,
 } from "@/lib/validators/billboard";
+import ImageUpload from "../ImageUpload";
 
 interface BillboardFormProps {
   billboard: Billboard | null;
@@ -133,6 +134,24 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Background image</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={isLoading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
