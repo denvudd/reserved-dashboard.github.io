@@ -45,7 +45,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { storeId, billboardId } = useParams();
+  const { storeId, categoryId } = useParams();
   const router = useRouter();
 
   const form = useForm<CategoryPayload>({
@@ -69,7 +69,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         await axios.post(`/api/store/${storeId}/categories/create`, payload);
       } else {
         await axios.patch(
-          `/api/store/${storeId}/categories/${billboardId}/update`,
+          `/api/store/${storeId}/categories/${categoryId}/update`,
           payload
         );
       }
@@ -103,7 +103,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       setIsLoading(true);
 
       await axios.delete(
-        `/api/store/${storeId}/categories/${billboardId}/delete`
+        `/api/store/${storeId}/categories/${categoryId}/delete`
       );
 
       router.refresh();
@@ -113,7 +113,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     } catch (error) {
       // because of safety mechanism of Prisma
       toast.error(
-        "Make sure you removed all categories using this billboard first."
+        "Make sure you removed all products using this category first."
       );
     } finally {
       setIsLoading(false);
@@ -182,7 +182,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                     disabled={isLoading}
                     onValueChange={field.onChange}
                     value={field.value}
-                    default={field.value}
+                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
