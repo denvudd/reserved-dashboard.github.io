@@ -14,13 +14,11 @@ import { format } from "date-fns";
 import { DataTable } from "./ui/DataTable";
 import ApiList from "./ui/ApiList";
 
-interface BillboardClientProps {
+interface BillboardsProps {
   billboards: Billboard[];
 }
 
-export const BillboardClient: React.FC<BillboardClientProps> = ({
-  billboards,
-}) => {
+const Billboards: React.FC<BillboardsProps> = ({ billboards }) => {
   const router = useRouter();
   const { storeId } = useParams();
 
@@ -46,8 +44,16 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={formattedBillboards} searchKey="label" />
+      <DataTable
+        columns={columns}
+        data={formattedBillboards}
+        searchKey="label"
+      />
+      <Heading title="API" description="API calls for categories" />
+      <Separator />
       <ApiList entityIdName="billboardId" entityName="billboards" />
     </>
   );
 };
+
+export default Billboards;

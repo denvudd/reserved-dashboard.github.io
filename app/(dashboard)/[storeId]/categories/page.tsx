@@ -1,4 +1,4 @@
-import Billboards from "@/components/Billboards";
+import Categories from "@/components/Categories";
 import db from "@/lib/prisma";
 import React from "react";
 
@@ -11,9 +11,12 @@ interface PageProps {
 const Page = async ({ params }: PageProps) => {
   const { storeId } = params;
 
-  const billboards = await db.billboard.findMany({
+  const categories = await db.category.findMany({
     where: {
       storeId,
+    },
+    include: {
+      billboard: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -23,7 +26,7 @@ const Page = async ({ params }: PageProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <Billboards billboards={billboards} />
+        <Categories categories={categories} />
       </div>
     </div>
   );
