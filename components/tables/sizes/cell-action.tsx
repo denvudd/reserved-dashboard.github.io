@@ -48,7 +48,7 @@ const CellAction: React.FC<CellActionProps> = ({ column }) => {
     } catch (error) {
       // because of safety mechanism of Prisma
       toast.error(
-        "Make sure you removed all categories using this billboard first."
+        "Make sure you removed all products using this size first."
       );
     } finally {
       setIsLoading(false);
