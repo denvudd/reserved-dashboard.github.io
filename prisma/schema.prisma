@@ -29,7 +29,7 @@ model Billboard {
 
   storeId  String
   store    Store  @relation("Store to bilboards", fields: [storeId], references: [id])
-  label    String
+  label    String @unique
   imageUrl String
 
   @@index([storeId])

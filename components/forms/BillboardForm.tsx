@@ -21,7 +21,6 @@ import { toast } from "sonner";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import AlertModal from "../modals/AlertModal";
-import ApiAlert from "../ui/ApiAlert";
 import { useOrigin } from "@/hooks/use-origin";
 import {
   type BillboardPayload,
@@ -37,7 +36,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { storeId } = useParams();
+  const { storeId, billboardId } = useParams();
   const router = useRouter();
   const origin = useOrigin();
 
@@ -57,9 +56,20 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
         label,
       };
 
-      await axios.patch(`/api/store/${storeId}/update`, payload);
-      router.refresh();
+      // if billboard doesn't exist then create else update
+      if (!billboard) {
+        await axios.post(
+          `/api/store/${storeId}/billboards/create`,
+          payload
+        );
+      } else {
+        await axios.patch(
+          `/api/store/${storeId}/billboards/${billboardId}/update`,
+          payload
+        );
+      }
 
+      router.refresh();
       toast.success(billboard ? "Billboard updated" : "Billboard created");
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -86,15 +96,19 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/store/${storeId}/delete`);
+      await axios.delete(
+        `/api/store/${storeId}/billboards/${billboardId}/delete`
+      );
 
       router.refresh();
       router.push("/");
 
-      toast.success("Store deleted.");
+      toast.success("Billboard deleted.");
     } catch (error) {
       // because of safety mechanism of Prisma
-      toast.error("Make sure you removed all products and categories first.");
+      toast.error(
+        "Make sure you removed all categories using this billboard first."
+      );
     } finally {
       setIsLoading(false);
       setIsOpen(false);
