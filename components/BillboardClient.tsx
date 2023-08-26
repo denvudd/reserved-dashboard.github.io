@@ -5,16 +5,37 @@ import { Button } from "./ui/Button";
 import Heading from "./ui/Heading";
 import { Separator } from "./ui/Separator";
 import { useParams, useRouter } from "next/navigation";
+import { type Billboard } from "@prisma/client";
+import {
+  columns,
+  type BillboardColumn,
+} from "@/components/tables/billboards/columns";
+import { format } from "date-fns";
+import { DataTable } from "./ui/DataTable";
 
-export const BillboardClient = () => {
+interface BillboardClientProps {
+  billboards: Billboard[];
+}
+
+export const BillboardClient: React.FC<BillboardClientProps> = ({
+  billboards,
+}) => {
   const router = useRouter();
   const { storeId } = useParams();
+
+  const formattedBillboards: BillboardColumn[] = billboards.map(
+    (billboard) => ({
+      id: billboard.id,
+      label: billboard.label,
+      createdAt: format(billboard.createdAt, "MMMM do, yyyy"),
+    })
+  );
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title="Billboards (0)"
+          title={`Billboards (${billboards.length})`}
           description="Menage billboards for you store."
         />
         <Button onClick={() => router.push(`/${storeId}/billboards/new`)}>
@@ -23,6 +44,7 @@ export const BillboardClient = () => {
         </Button>
       </div>
       <Separator />
+      <DataTable columns={columns} data={formattedBillboards} searchKey="label" />
     </>
   );
 };

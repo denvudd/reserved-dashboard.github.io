@@ -38,7 +38,6 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
 
   const { storeId, billboardId } = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const form = useForm<BillboardPayload>({
     resolver: zodResolver(BillboardValidator),
@@ -70,6 +69,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ billboard }) => {
       }
 
       router.refresh();
+      router.push(`/${storeId}/billboards`)
       toast.success(billboard ? "Billboard updated" : "Billboard created");
     } catch (error) {
       if (error instanceof AxiosError) {
