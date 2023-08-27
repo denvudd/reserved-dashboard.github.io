@@ -9,7 +9,7 @@ import { type Color } from "@prisma/client";
 import { format } from "date-fns";
 import { DataTable } from "./ui/DataTable";
 import ApiList from "./ui/ApiList";
-import { type SizeColumn, columns } from "./tables/sizes/columns";
+import { type ColorColumn, columns } from "./tables/colors/columns";
 
 interface ColorsProps {
   colors: Color[];
@@ -19,7 +19,7 @@ const Colors: React.FC<ColorsProps> = ({ colors }) => {
   const router = useRouter();
   const { storeId } = useParams();
 
-  const formattedColors: SizeColumn[] = colors.map((color) => ({
+  const formattedColors: ColorColumn[] = colors.map((color) => ({
     id: color.id,
     name: color.name,
     value: color.value,

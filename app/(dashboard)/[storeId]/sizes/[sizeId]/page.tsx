@@ -11,7 +11,7 @@ interface PageProps {
 }
 
 const Page = async ({ params }: PageProps) => {
-  const { sizeId, storeId } = params;
+  const { sizeId } = params;
 
   const size = await db.size.findUnique({
     where: {

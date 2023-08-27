@@ -1,28 +1,27 @@
-import CategoryForm from "@/components/forms/CategoryForm";
-import SizeForm from "@/components/forms/SizeForm";
+import ColorForm from "@/components/forms/ColorForm";
 import db from "@/lib/prisma";
 import React from "react";
 
 interface PageProps {
   params: {
-    sizeId: string;
+    colorId: string;
     storeId: string;
   };
 }
 
 const Page = async ({ params }: PageProps) => {
-  const { sizeId, storeId } = params;
+  const { colorId } = params;
 
-  const size = await db.size.findUnique({
+  const color = await db.color.findUnique({
     where: {
-      id: sizeId,
+      id: colorId,
     },
   });
 
   return (
     <div className="flex flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <SizeForm size={size} />
+        <ColorForm color={color} />
       </div>
     </div>
   );

@@ -21,11 +21,11 @@ export const columns: ColumnDef<ColorColumn>[] = [
     header: "Value",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original.value}
         <div
           className="h-6 w-6 rounded-full border"
           style={{ backgroundColor: row.original.value }}
         ></div>
+        {row.original.value}
       </div>
     ),
   },
