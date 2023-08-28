@@ -55,7 +55,7 @@ const Products: React.FC<ProductsProps> = ({ products }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={formattedProducts} searchKey="label" />
+      <DataTable columns={columns} data={formattedProducts} searchKey="name" />
       <Heading title="API" description="API calls for products" />
       <Separator />
       <ApiList entityIdName="productId" entityName="products" />

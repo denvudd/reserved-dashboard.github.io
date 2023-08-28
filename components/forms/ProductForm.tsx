@@ -62,7 +62,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { storeId, billboardId } = useParams();
+  const { storeId, productId } = useParams();
   const router = useRouter();
 
   const form = useForm<ProductPayload>({
@@ -93,7 +93,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         await axios.post(`/api/store/${storeId}/products/create`, data);
       } else {
         await axios.patch(
-          `/api/store/${storeId}/products/${billboardId}/update`,
+          `/api/store/${storeId}/products/${productId}/update`,
           data
         );
       }
@@ -127,7 +127,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       setIsLoading(true);
 
       await axios.delete(
-        `/api/store/${storeId}/products/${billboardId}/delete`
+        `/api/store/${storeId}/products/${productId}/delete`
       );
 
       router.refresh();
@@ -180,7 +180,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
+                <FormLabel className="flex flex-col gap-1">
+                  Images{" "}
+                  <span className="text-muted-foreground text-xs">
+                    Preferable formats: PNG, JPG and WEBP. Do not use SVG format for better perfomance.
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value.map((image) => image.url)}
@@ -224,12 +229,18 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="9.99"
-                      type="number"
-                      {...field}
-                    />
+                    <div className="relative grid gap-1">
+                      <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
+                        <span className="text-sm text-zinc-400">$</span>
+                      </div>
+                      <Input
+                        disabled={isLoading}
+                        placeholder="9.99"
+                        className="pl-6"
+                        type="number"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

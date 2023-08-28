@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { type BillboardColumn } from "./columns";
+import { type ProductColumn } from "./columns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import axios from "axios";
 import AlertModal from "@/components/modals/AlertModal";
 
 interface CellActionProps {
-  column: BillboardColumn;
+  column: ProductColumn;
 }
 
 const CellAction: React.FC<CellActionProps> = ({ column }) => {
@@ -32,24 +32,20 @@ const CellAction: React.FC<CellActionProps> = ({ column }) => {
 
   const onCopy = (value: string) => {
     copy(value);
-    toast.success("Billboard ID coppied to the clipboard.");
+    toast.success("Product ID coppied to the clipboard.");
   };
 
   const onDelete = async () => {
     try {
       setIsLoading(true);
 
-      await axios.delete(
-        `/api/store/${storeId}/billboards/${column.id}/delete`
-      );
+      await axios.delete(`/api/store/${storeId}/products/${column.id}/delete`);
 
       router.refresh();
-      toast.success("Billboard deleted.");
+      toast.success("Product deleted.");
     } catch (error) {
       // because of safety mechanism of Prisma
-      toast.error(
-        "Make sure you removed all categories using this billboard first."
-      );
+      toast.error("Something went wrong... Please try again.");
     } finally {
       setIsLoading(false);
       setIsOpen(false);
@@ -75,7 +71,7 @@ const CellAction: React.FC<CellActionProps> = ({ column }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => router.push(`/${storeId}/billboards/${column.id}`)}
+            onClick={() => router.push(`/${storeId}/products/${column.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" />
             Edit
