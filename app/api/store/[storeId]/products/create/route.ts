@@ -48,7 +48,7 @@ export async function POST(req: Request, { params }: Params) {
       });
     }
 
-    if (!images || images.length) {
+    if (!images || !images.length) {
       return new NextResponse("Images are required", { status: 400 });
     }
 
